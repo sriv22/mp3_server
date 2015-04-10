@@ -12,3 +12,15 @@ var UserSchema = new mongoose.Schema({
 
 // Export the Mongoose model
 module.exports = mongoose.model('User', UserSchema);
+
+
+
+
+
+	// User.find({email:user.email}, function(err,docs){
+	// 	if(docs.length){
+	// 				res.json({message:"Email already exists", data:[]});
+	// 	}
+
+
+	
