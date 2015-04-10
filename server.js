@@ -20,6 +20,8 @@ var port = process.env.PORT || 4000;
 var allowCrossDomain = function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods',"GET, POST, PUT, OPTIONS, DELETE");
+  res.header('Content-Type','application/x-www-form-urlencoded');
   next();
 };
 app.use(allowCrossDomain);
@@ -28,6 +30,7 @@ app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use(bodyParser.json());
 
 // All our routes will start with /api
 app.use('/api', router);
@@ -42,9 +45,11 @@ homeRoute.get(function(req, res) {
 //User route 
 router.route('/users') 
     .post(function(req, res) {
+        // console.log("in sri's post");
+        // console.log(req.body.name);
         var user = new User();
         if (typeof req.body.name === 'undefined' || typeof req.body.email === 'undefined') {
-            res.json({message: 'User name and/or email is undefined'});
+           res.json({message: 'User name and/or email is undefined'});
         }
         else { 
             user.name = req.body.name;
@@ -60,6 +65,7 @@ router.route('/users')
                             res.status(500);
                             res.send(err);
                         }
+                        res.status(201);
                         user.pendingTasks = req.body.pendingTasks;
                         res.json({message: 'OK', data:user}); 
                     });
@@ -119,7 +125,7 @@ router.route('/users/:user_id')
                 else {
                     user.name = req.body.name;
                     user.email = req.body.email; 
-                    user.pendingTasks.push(req.body.pendingTasks || []);
+                    user.pendingTasks = req.body.pendingTasks;
                     
                     user.save(function(err, user) {
                         if (err) {
@@ -165,6 +171,7 @@ router.route('/tasks')
             task.description = req.body.description;
             task.deadline = req.body.deadline;
             task.completed = req.body.completed;
+
             
             task.save(function(err, task) {
                 if (err)
@@ -172,6 +179,7 @@ router.route('/tasks')
                     res.status(500);
                     res.send(err);
                 }
+                res.status(201);
                 res.json({message: 'OK', data:task}); 
             });
         }
