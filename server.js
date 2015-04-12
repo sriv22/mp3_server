@@ -107,8 +107,13 @@ router.route('/users/:user_id')
                 res.status(404);
                 res.json({message: 'Cannnot find user'});
             }
-            else
-                res.json(user);
+            else {
+                // console.log(data:user);
+                // console.log(data);
+                res.json({message:"OK",data:user});
+                // console.log(data:user);
+                // console.log(data);
+            }
         });
     })
 
@@ -171,6 +176,8 @@ router.route('/tasks')
             task.description = req.body.description;
             task.deadline = req.body.deadline;
             task.completed = req.body.completed;
+            task.assignedUser = req.body.assignedUser;
+            task.assignedUserName = req.body.assignedUserName;
 
             
             task.save(function(err, task) {
@@ -195,7 +202,7 @@ router.route('/tasks')
         };
 
         Task.find(where, fields, queryOptions, function(err, tasks) {
-            if (err || tasks === null){
+            if (err /*|| tasks === null*/){
                 res.status(404);
                 res.send(err);
             }
