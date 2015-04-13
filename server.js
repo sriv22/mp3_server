@@ -49,7 +49,7 @@ router.route('/users')
         // console.log(req.body.name);
         var user = new User();
         if (typeof req.body.name === 'undefined' || typeof req.body.email === 'undefined') {
-           res.json({message: 'User name and/or email is undefined'});
+           res.json({message: 'User name and/or email is undefined', data:[]});
         }
         else { 
             user.name = req.body.name;
@@ -57,7 +57,7 @@ router.route('/users')
 
             User.find({email:user.email}, function(err, docs) {
                 if (docs.length) {
-                    res.json({message: "Email already exists!"});
+                    res.json({message: "Email already exists!", data:[]});
                 }
                 else {
                     user.save(function(err, user) {
@@ -87,7 +87,7 @@ router.route('/users')
         User.find(where, fields, queryOptions, function(err, users) {
             if (err || users === null){
                 res.status(404);
-                res.json({message: 'Cannot find user'});
+                res.json({message: 'Cannot find user', data:[]});
             }
 
             res.status(200);
@@ -106,7 +106,7 @@ router.route('/users/:user_id')
         User.findById(req.params.user_id, function(err, user) {
             if (err || user === null) {
                 res.status(404);
-                res.json({message: 'Cannnot find user'});
+                res.json({message: 'Cannnot find user', data:[]});
             }
             else {
                 // console.log(data:user);
@@ -122,11 +122,11 @@ router.route('/users/:user_id')
         User.findById(req.params.user_id, function(err, user) {
             if (err || user === null) {
                 res.status(404);
-                res.json({message: 'Cannnot find user'});
+                res.json({message: 'Cannnot find user', data:[]});
             }
             else { 
                 if(typeof req.body.name === "undefined" || typeof req.body.email === 'undefined')  {
-                    res.json({message:"User name and/or email is undefined"});
+                    res.json({message:"User name and/or email is undefined", data:[]});
                 }
                 else {
                     user.name = req.body.name;
@@ -138,7 +138,7 @@ router.route('/users/:user_id')
                             res.status(500);
                             res.send(err);
                         }
-                        res.json({message: 'User updated!'}); 
+                        res.json({message: 'User updated!', data:user}); 
                     });
                 }
             }
@@ -149,7 +149,7 @@ router.route('/users/:user_id')
         User.findById(req.params.user_id, function(err, user) {
             if (err || user === null) {
                 res.status(404);
-                res.json({message: 'Cannnot find user'});
+                res.json({message: 'Cannnot find user',data:[]});
             }
             else {
                 User.remove({
@@ -158,7 +158,7 @@ router.route('/users/:user_id')
                     if (err)
                         res.send(err);
 
-                    res.json({ message: 'Successfully deleted' });
+                    res.json({ message: 'Successfully deleted', data:[]});
                 });
             }
         });
@@ -170,7 +170,7 @@ router.route('/tasks')
         var task = new Task();
 
         if(typeof req.body.name === "undefined" || typeof req.body.deadline === 'undefined') {
-            res.json('Task name or deadline is undefined!');
+            res.json({message:'Task name or deadline is undefined!', data:[]});
         }
         else {
             task.name = req.body.name;
@@ -222,7 +222,7 @@ router.route('/tasks/:task_id')
         Task.findById(req.params.task_id, function(err, task) {
             if (err || task === null) {
                 res.status(404);
-                res.json({message: 'Task is not found'});
+                res.json({message: 'Task is not found', data:[]});
                 //res.send(err);
             }
             else
@@ -234,7 +234,7 @@ router.route('/tasks/:task_id')
         Task.findById(req.params.task_id, function(err, task) {
             if (err || task === null) {
                 res.status(404);
-                res.json({message: 'Cannot find task'});
+                res.json({message: 'Cannot find task', data:[]});
             }
             else {
                 task.name = req.body.name;
@@ -245,7 +245,7 @@ router.route('/tasks/:task_id')
                 task.assignedUserName = req.body.assignedUserName; 
 
                 if(typeof task.name === "undefined" || typeof task.deadline === 'undefined') {
-                    res.json({message:"Task name or deadline is undefined"});
+                    res.json({message:"Task name or deadline is undefined", data:[]});
                 }
                 else { 
                     task.save(function(err) {
@@ -262,7 +262,7 @@ router.route('/tasks/:task_id')
         Task.findById(req.params.task_id, function(err, task) {
             if (err || task === null) {
                 res.status(404);
-                res.json({message: 'Cannot find task'});
+                res.json({message: 'Cannot find task', data:[]});
             }
             else {
                 Task.remove({
@@ -271,7 +271,7 @@ router.route('/tasks/:task_id')
                     if (err)
                         res.send(err);
 
-                    res.json({ message: 'Successfully deleted' });
+                    res.json({ message: 'Successfully deleted', data:[] });
                 });
             }
         });
