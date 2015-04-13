@@ -66,7 +66,8 @@ router.route('/users')
                             res.send(err);
                         }
                         res.status(201);
-                        user.pendingTasks = req.body.pendingTasks;
+                        //user.pendingTasks = req.body.pendingTasks;
+                        user.pendingTasks = [];
                         res.json({message: 'OK', data:user}); 
                     });
                 }
