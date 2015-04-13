@@ -250,7 +250,7 @@ router.route('/tasks/:task_id')
                     task.save(function(err) {
                         if (err)
                             res.send(err); 
-                        res.json({message: 'Task updated!'});
+                        res.json({message: 'Task updated!', data:task});
                     });
                 }
             }
