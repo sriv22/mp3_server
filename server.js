@@ -179,7 +179,6 @@ router.route('/tasks')
             task.assignedUser = req.body.assignedUser;
             task.assignedUserName = req.body.assignedUserName;
 
-            
             task.save(function(err, task) {
                 if (err)
                 {
@@ -226,7 +225,7 @@ router.route('/tasks/:task_id')
                 //res.send(err);
             }
             else
-                res.json(task);
+                res.json({message:"OK",data:task});
         });
     })
 
