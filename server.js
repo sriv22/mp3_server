@@ -45,8 +45,6 @@ homeRoute.get(function(req, res) {
 //User route 
 router.route('/users') 
     .post(function(req, res) {
-        // console.log("in sri's post");
-        // console.log(req.body.name);
         var user = new User();
         if (typeof req.body.name === 'undefined' || typeof req.body.email === 'undefined') {
            res.json({message: 'User name and/or email is undefined', data:[]});
@@ -65,8 +63,7 @@ router.route('/users')
                             res.status(500);
                             res.send(err);
                         }
-                        res.status(201);
-                        //user.pendingTasks = req.body.pendingTasks;
+                        res.status(200);
                         user.pendingTasks = [];
                         res.json({message: 'OK', data:user}); 
                     });
@@ -109,11 +106,7 @@ router.route('/users/:user_id')
                 res.json({message: 'Cannnot find user', data:[]});
             }
             else {
-                // console.log(data:user);
-                // console.log(data);
                 res.json({message:"OK",data:user});
-                // console.log(data:user);
-                // console.log(data);
             }
         });
     })
@@ -158,6 +151,7 @@ router.route('/users/:user_id')
                     if (err)
                         res.send(err);
 
+                    res.status(200);
                     res.json({ message: 'Successfully deleted', data:[]});
                 });
             }
@@ -202,7 +196,7 @@ router.route('/tasks')
         };
 
         Task.find(where, fields, queryOptions, function(err, tasks) {
-            if (err /*|| tasks === null*/){
+            if (err){
                 res.status(404);
                 res.send(err);
             }
