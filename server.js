@@ -85,7 +85,7 @@ router.route('/users')
         };
 
         User.find(where, fields, queryOptions, function(err, users) {
-            if (err || users == null){
+            if (err || users === null){
                 res.status(404);
                 res.json({message: 'Cannot find user'});
             }
